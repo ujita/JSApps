@@ -43,8 +43,6 @@ window.onload = function() {
 	for (var y = 0; y < 9; y++) {
 		for (var x = 0; x < 9; x++) {
 			box = document.getElementById("box_" + y + "_" + x);
-			box.onclick = toggle;
-			box.onblur = toggle;
 			box.readonly = true;
 			if (datas[y][x] > 0) {
 				box.value = datas[y][x];
@@ -54,38 +52,28 @@ window.onload = function() {
 	return;
 };
 
-function toggle() {
-	if (this.readOnly) {
-		this.readOnly = false;
-		this.style.backgroundColor = "#ff9090";
-		inputObj = this;
-	} else {
-		inputObj.value = isNumber(inputObj.value) ? inputObj.value : "";
-		this.readOnly = true;
-		this.style.backgroundColor = "";
-		inputObj = null;
-	}
-}
-
 function isNumber(n) {
 	return (String(n) || "").match(/[0-9]/);
 }
 
 /**
- * 解析を行う。やり方は消去法を使うことにする。
- * ■探索方法
- * 1.数字が入力されていないマス目に対し1から9の候補を持たせる。
- * 2.数字が入力されているマス目を１つずつ見て、
- *   入力出来ないことが確定した候補をどんどん削っていく。
- * 3.候補が1つになった時点でそのマスの数字は確定。
- * 4.数字が入力されているマス目の探索をすべて終えた時点で、
- *   行、列、ブロックにおいて１つしか入力できないことが確定した候補は、
- *   その時点で確定。
- * ■終了条件
- * 1.すべての探索を終えて、候補が一つも削れないとき。
- * 2.すべてのマスの数字が確定したとき。
+ * 数独の解析を行うメイン関数。
+ * 
+ * ＜探索方法＞
+ * 1.数字が入力されていないマス目に対し「1」から「9」の候補情報を持たせる。
+ * 2.数字が入力されているマス目を見つけだし、関連するマス目の候補情報を削っていく。
+ *
+ *     マス目に「1」が入力されているならば、
+ *     そのマス目を中心とした横一列、縦一列、同じブロック(3×3の集合)には、
+ *     「1」は候補として存在出来ないはずである。
+ *
+ *   2-1.そのマス目とY座標が同じ(=横一列)のマス目から候補を削る。
+ *   2-2.そのマス目とX座標が同じ(=縦一列)のマス目から候補を削る。
+ *   2-3.そのマス目が所属するブロックのマス目から候補を削る。
+ * 3.2-1から2-3の操作を、数字が入力されたすべてのマス目に対して行った結果、
+ *   候補が1つになったマス目を探索し、入力を確定させていく。
  */
-function analyze() {
+function solve() {
 
 	var box;
 
