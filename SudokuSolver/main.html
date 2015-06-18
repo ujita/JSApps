@@ -1,0 +1,127 @@
+<!DOCTYPE>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>数独解析</title>
+<style type="text/css">
+@charset="UTF-8";
+* { font-size:14pt; }
+body {margin:4px; padding:4px;}
+
+content, ul { margin:0px; clear:left; display:block;}
+li {float:left; margin:0px; border:1px solid #b0b0b0;}
+li.t {border-top:2px solid #000000;}
+li.l {border-left:2px solid #000000;}
+li.r {border-right:2px solid #000000;;}
+li.b {border-bottom:2px solid #000000;}
+li input { width:25px; border:0px; text-align:center; ime-mode:disabled; }
+
+button {font-size:10pt;}
+</style>
+</head>
+<body>
+<span>
+<ul>
+  <li class="t l"><input type="text" maxlength="1" id="box_0_0" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_0_1" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_0_2" readonly="readonly"/></li>
+  <li class="t l"><input type="text" maxlength="1" id="box_0_3" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_0_4" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_0_5" readonly="readonly"/></li>
+  <li class="t l"><input type="text" maxlength="1" id="box_0_6" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_0_7" readonly="readonly"/></li>
+  <li class="t r"><input type="text" maxlength="1" id="box_0_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="l"><input type="text" maxlength="1" id="box_1_0" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_1_1" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_1_2" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_1_3" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_1_4" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_1_5" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_1_6" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_1_7" readonly="readonly"/></li>
+  <li class="r"><input type="text" maxlength="1" id="box_1_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="l"><input type="text" maxlength="1" id="box_2_0" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_2_1" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_2_2" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_2_3" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_2_4" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_2_5" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_2_6" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_2_7" readonly="readonly"/></li>
+  <li class="r"><input type="text" maxlength="1" id="box_2_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="t l"><input type="text" maxlength="1" id="box_3_0" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_3_1" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_3_2" readonly="readonly"/></li>
+  <li class="t l"><input type="text" maxlength="1" id="box_3_3" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_3_4" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_3_5" readonly="readonly"/></li>
+  <li class="t l"><input type="text" maxlength="1" id="box_3_6" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_3_7" readonly="readonly"/></li>
+  <li class="t r"><input type="text" maxlength="1" id="box_3_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="l"><input type="text" maxlength="1" id="box_4_0" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_4_1" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_4_2" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_4_3" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_4_4" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_4_5" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_4_6" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_4_7" readonly="readonly"/></li>
+  <li class="r"><input type="text" maxlength="1" id="box_4_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="l"><input type="text" maxlength="1" id="box_5_0" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_5_1" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_5_2" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_5_3" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_5_4" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_5_5" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_5_6" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_5_7" readonly="readonly"/></li>
+  <li class="r"><input type="text" maxlength="1" id="box_5_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="t l"><input type="text" maxlength="1" id="box_6_0" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_6_1" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_6_2" readonly="readonly"/></li>
+  <li class="t l"><input type="text" maxlength="1" id="box_6_3" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_6_4" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_6_5" readonly="readonly"/></li>
+  <li class="t l"><input type="text" maxlength="1" id="box_6_6" readonly="readonly"/></li>
+  <li class="t"><input type="text" maxlength="1" id="box_6_7" readonly="readonly"/></li>
+  <li class="t r"><input type="text" maxlength="1" id="box_6_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="l"><input type="text" maxlength="1" id="box_7_0" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_7_1" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_7_2" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_7_3" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_7_4" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_7_5" readonly="readonly"/></li>
+  <li class="l"><input type="text" maxlength="1" id="box_7_6" readonly="readonly"/></li>
+  <li><input type="text" maxlength="1" id="box_7_7" readonly="readonly"/></li>
+  <li class="r"><input type="text" maxlength="1" id="box_7_8" readonly="readonly"/></li>
+</ul>
+<ul>
+  <li class="l b"><input type="text" maxlength="1" id="box_8_0" readonly="readonly"/></li>
+  <li class="b"><input type="text" maxlength="1" id="box_8_1" readonly="readonly"/></li>
+  <li class="b"><input type="text" maxlength="1" id="box_8_2" readonly="readonly"/></li>
+  <li class="l b"><input type="text" maxlength="1" id="box_8_3" readonly="readonly"/></li>
+  <li class="b"><input type="text" maxlength="1" id="box_8_4" readonly="readonly"/></li>
+  <li class="b"><input type="text" maxlength="1" id="box_8_5" readonly="readonly"/></li>
+  <li class="l b"><input type="text" maxlength="1" id="box_8_6" readonly="readonly"/></li>
+  <li class="b"><input type="text" maxlength="1" id="box_8_7" readonly="readonly"/></li>
+  <li class="b r"><input type="text" maxlength="1" id="box_8_8" readonly="readonly"/></li>
+</ul>
+</span>
+<span><button onclick="javascript:analyze();">解析を開始する</button></span>
+</body>
+<script type="text/javascript" src="./script.js"></script>
+</html>
