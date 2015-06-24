@@ -80,10 +80,11 @@ function solve() {
 	// 候補情報を初期化する
 	var candidate = createCandidate();
 
-	// 確定マスから全体を探索する
-	candidate = search(candidate);
+	// すでに確定しているマスを中心に、候補を削っていく。
+	candidate = reduction(candidate);
+	// 削った結果を反映させる。
 	candidate = fixed(candidate, "#008000");
-	// 候補を元に絞り込みを行う。
+	// 削られた候補を元に、確定させられるマスを見つけていく。
 	candidate = narrowDown(candidate);
 	candidate = fixed(candidate, "#ff00ff");
 
@@ -95,15 +96,15 @@ function solve() {
 		for (var y = 0; y < 9; y++) {
 			candidate[y] = [];
 			for (var x = 0; x < 9; x++) {
-				candidate[y][x] = isNumber(document.getElementById("box_" + y + "_" + x)) 
+				candidate[y][x] = isNumber(document.getElementById("box_" + y + "_" + x).value) 
 					? [] : [1, 2, 3, 4, 5, 6, 7, 8, 9];
 			}
 		}
 		return candidate;
 	}
 
-	/** 探索を行う。 */
-	function search(candidate) {
+	/** 確定しているマス目を中心に、空白マスの候補を削っていく。 */
+	function reduction(candidate) {
 		for (var y = 0; y < 9; y++) {
 			for (var x = 0; x < 9; x++) {
 				box = document.getElementById("box_" + y + "_" + x);
@@ -115,7 +116,7 @@ function solve() {
 		return candidate;
 	}
 
-	/** 指定した番地を中心に候補を削る. */
+	/** 空白マスの候補情報を削る処理本体. */
 	function spliceCandidate(candidate, x, y, num) {
 		var sy = Math.floor(y / 3) * 3;
 		var sx = Math.floor(x / 3) * 3;
@@ -149,12 +150,16 @@ function solve() {
 		var num;
 		for (var y = 0; y < 9; y++) {
 			for (var x = 0; x < 9; x++) {
-				if (candidate[y][x].length > 0) {
-					for (var i = 0; i < candidate[y][x].length; i++) {
-						num = candidate[y][x][i];
-						if (checkBox(candidate, x, y, num) == 1
-								|| checkRow(candidate, x, y, num) == 1
-								|| checkCol(candidate, x, y, num) == 1) {
+				var len = candidate[y][x].length;
+				if (len > 0) {
+					for (var i = 0; i < len; i++) {
+						num = Number(candidate[y][x][i]);
+						if (checkBox(candidate, x, y, num) == 1) {
+							candidate[y][x] = [num];
+							break;
+						}
+						if (checkRow(candidate, x, y, num) == 1
+								&& checkCol(candidate, x, y, num) == 1) {
 							candidate[y][x] = [num];
 							break;
 						}
@@ -206,7 +211,7 @@ function solve() {
 		}
 	}
 
-	/** 探索結果を反映させる */
+	/** 空白マスの状態を盤面に反映させる. */
 	function fixed(candidate, bgColor) {
 		var num;
 		for (var y = 0; y < 9; y++) {
@@ -217,7 +222,7 @@ function solve() {
 					box.style.backgroundColor = bgColor;
 					num = Number(candidate[y][x][0]);
 					box.value = num;
-					// 反映したら候補情報はクリアしておく
+					// 反映マスの候補情報をクリアする
 					candidate[y][x] = [];
 					// 結果を他のマスの候補情報に反映させておく
 					candidate = spliceCandidate(candidate, x, y, num);
